@@ -12,4 +12,4 @@ There are a few improvements that could be made to V1:
 These improvements might be added at a later date to enhance the performance of the model.
 
 ### Results
-V1 (22/10/21) achieved an accuracy of 0.98632, placing me at 624 on the leaderboard of the Kaggle Digit Recognizer starter competition.
+V1 (22/10/21) achieved an accuracy of 0.98632, placing me at 624 on the leaderboard of the Kaggle Digit Recognizer starter competition (note this is a 2 month rolling leaderboard).
