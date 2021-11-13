@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 
 from tensorflow import keras
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from model import creat_model
 
@@ -33,7 +34,17 @@ y_train = y_digit
 
 # Potentially could introduce data augmentation here for future revisions.
 
-# Train model and save best weights
+datagen = ImageDataGenerator(rotation_range=20,
+                  width_shift_range=0.20,
+                  shear_range=15,
+                  zoom_range=0.10,
+                  validation_split=0.25,
+                  horizontal_flip=False)
+
+datagen.fit(x_train)
+
+gen_train  = datagen.flow(x_train,y_train,batch_size=256,subset='training')
+gen_validation  = datagen.flow(x_train,y_train,batch_size=64,subset='validation')
 
 model = creat_model()
 model.summary()
@@ -44,9 +55,8 @@ reduce_lr = ReduceLROnPlateau(monitor='val_loss',factor=0.1,patience=5 ,min_lr=0
 from tensorflow.keras.callbacks import ModelCheckpoint
 checkpoint = ModelCheckpoint(filepath='digit-recognizer-model.hdf5',monitor='val_loss',save_best_only=True,save_weights_only=True,verbose=1)
 
-model_hist = model.fit(x = x_train,
-                       y = y_train,
-                       validation_split=0.25,
-                       epochs=10,
+model_hist = model.fit(gen_train,
+                       validation_data = gen_validation,
+                       epochs=40,
                        callbacks=[reduce_lr,checkpoint],
                        verbose=1)
