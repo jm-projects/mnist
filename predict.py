@@ -3,13 +3,6 @@ import os
 import pandas as pd
 import numpy as np
 
-import matplotlib.pyplot as plt
-
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.layers import Input, Dense, Conv2D, MaxPool2D, Flatten, Dropout
-from tensorflow.keras.models import Model
-
 from model import creat_model
 
 
@@ -25,6 +18,6 @@ prediction = model.predict(test)
 predict = np.array(np.round(prediction), dtype = np.int32)
 predict = np.argmax(predict , axis=1).reshape(-1, 1)
 out = [{'ImageId': i+1, 'Label': predict[i][0]} for i in range(len(predict))]
-pd.DataFrame(out).to_csv('submission.csv', index=False)
+pd.DataFrame(out).to_csv('submission-v2.csv', index=False)
 
 print(len(out))
